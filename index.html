@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js"></script>
+<title>Document</title>
+</head>
+<body>
+
+    <h1>chat websocket</h1>
+    <div id="chatBox">
+
+    </div>
+    <form action="" id="formMessage">
+    <input id="message" type="text" name="message" value="" placeholder="message">
+
+    </form>
+  
+
+<script>
+    let formMessage=document.getElementById('formMessage');
+    let socket = io('http://localhost:8080');
+    formMessage.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        let message=document.getElementById('message').value;
+        // console.log(message);
+        socket.emit('messageChat',message);
+    })
+
+    socket.on("sendMessage",(data)=>{
+        console.log(data);
+        let domMessage=`<span>${data}</span><br />`
+        
+        document.getElementById('chatBox').innerHTML+=domMessage;
+    })
+</script>
+</body>
+</html>
